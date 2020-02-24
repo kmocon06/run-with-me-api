@@ -25,13 +25,13 @@ Models
 2. name
 	* String
 3. distance
-	* Number
+	* String
 4. location
 	* String
 5. date
 	* String
 6. runners 
-	* Array of Users []
+	* [{ ref: 'User' }]
 7. createdDate
 	* Date
 
@@ -49,7 +49,7 @@ Models
 6. duration
 	* String
 7. distance
-	* Number
+	* String
 8. workoutCompleted
 	* Boolean
 9. createdDate
