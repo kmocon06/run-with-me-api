@@ -3,57 +3,57 @@ SEI Capstone
 
 Models 
 
-#User 
-name
-	-String 
-age
-	-Number
-gender
-	-String
-hometown
-	-String
-email
-	-String
-password
-	-String
-createdDate
-	-Date
+###User 
+1.name
+	* String 
+2.age
+	* Number
+3.gender
+	* String
+4.hometown
+	* String
+5.email
+	* String
+6.password
+	* String
+7.createdDate
+	* Date
 
 
-#Race 
-admin {ref: User}
-name
-	-String
-distance
-	-Number
-location
-	-String
-date
-	-String
-runners 
-	-Array of Users []
-createdDate
-	-Date
+###Race 
+1.admin {ref: User}
+2.name
+	* String
+3.distance
+	* Number
+4.location
+	* String
+5.date
+	* String
+6.runners 
+	* Array of Users []
+7.createdDate
+	* Date
 
 
-#Workout (Training Plan)
-user {ref: User}
-trainingFor 
-	-String
-weekNumber
-	-Number
-dayOfTheWeek
-	-String
-typeOfWorkout
-	-String
-duration
-	-String
-distance
-	-Number
-workoutCompleted
-	-Boolean
-createdDate
-	-Date
+###Workout (Training Plan)
+1.user {ref: User}
+2.trainingFor 
+	* String
+3.weekNumber
+	* Number
+4.dayOfTheWeek
+	* String
+5.typeOfWorkout
+	* String
+6.duration
+	* String
+7.distance
+	* Number
+8.workoutCompleted
+	* Boolean
+9.createdDate
+	* Date
 
 
 
@@ -61,14 +61,14 @@ createdDate
 ## Routes
 
 
-#User
+###User
 | Method | Path | Action|
 |--------|------|-------|
 | POST | /auth/login | Login a user into the website |
 | POST | /auth/register | Register a new user |
 | GET | /auth/logout| Logout user |
 
-#Race
+###Race
 | Method | Path | Action|
 |--------|------|-------|
 | GET | /races | user should be able to see all of the races that were created and be able to join a race|
@@ -78,7 +78,7 @@ createdDate
 |DELETE | /races/id | user can delete a race they created |
 
 
-#Training (workouts)
+###Training (workouts)
 
 | Method | Path | Action|
 |--------|------|-------|
