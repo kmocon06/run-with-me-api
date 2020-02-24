@@ -7,7 +7,9 @@ const PORT = process.env.PORT
 //available under the req.body property with body-parser
 const bodyParser = require('body-parser')
 //be able to store sessions for each user
-const session = require('express-sessions')
+const session = require('express-session')
+//db connection
+require('./db/db')
 
 
 //MIDDLEWARE
