@@ -26,12 +26,18 @@ app.use(session({
   	saveUninitialized: false 
 }))
 
+//CONTROLLERS
+const authController = require('./controllers/authController.js')
 
 
 //ROUTES
 app.get('/', (req, res) => {
   res.send('RUN WITH ME PROJECT')
 })
+
+
+//API version 1
+app.use('/api/v1/auth', authController)
 
 
 //LISTENERS
