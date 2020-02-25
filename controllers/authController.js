@@ -49,11 +49,8 @@ router.post('/register', async (req, res, next) => {
 			//save the new created user 
 			await newUser.save()
 
-			//console.log(newUser)
-			//console.log(newUser._id)
 			//find the new user by their ID 
 			const newUserResponse = await User.findById(newUser._id)
-			//console.log(newUserResponse)
 
 			//user is currently logged into the session
     		req.session.loggedIn = true
@@ -74,6 +71,64 @@ router.post('/register', async (req, res, next) => {
 		console.log('this is the error')
 	}
 })
+
+//login route
+//POST /login
+router.post('/login', async (req, res, next) => {
+	try {
+		//check if there is a user in the database that exists with that email
+		const foundUser = await User.findOne({
+			email: req.body.email
+		})
+
+		console.log(foundUser)
+
+		//if a user with that email exists in the database then we need to check if
+		//the password input matches the password in the database
+		if(foundUser) {
+			console.log('user exists in database')
+
+		//if the email and password of user match then user should be logged in
+		//if not then the password is no good 
+			const loginInfoIsValid = bcrypt.compareSync(req.body.password, foundUser.password)
+
+			if(loginInfoIsValid) {
+
+				const userResponse = await User.findById(foundUser._id)
+
+				req.session.loggedIn = true
+				//store current user info when logged into session
+				req.session.userId = foundUser._id
+    			req.session.email = foundUser.email
+    			req.session.name = foundUser.name
+
+    			res.status(200).send({
+					data: userResponse,
+					message: 'User successfully logged in'
+				})
+			} else {
+
+				res.status(401).send({
+					data: {},
+					message: 'Email or password is invalid'
+				})
+
+			}
+		} else {
+			//if there is no user with this email in the database then 
+			//the user needs to register
+			res.status(401).send({
+				data: {},
+				message: 'No user with that email'
+			})
+		}
+	} catch(err) {
+		console.log(err)
+	}
+})
+
+
+
 
 
 
