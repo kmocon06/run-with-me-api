@@ -81,12 +81,9 @@ router.post('/login', async (req, res, next) => {
 			email: req.body.email
 		})
 
-		console.log(foundUser)
-
 		//if a user with that email exists in the database then we need to check if
 		//the password input matches the password in the database
 		if(foundUser) {
-			console.log('user exists in database')
 
 		//if the email and password of user match then user should be logged in
 		//if not then the password is no good 
@@ -122,6 +119,23 @@ router.post('/login', async (req, res, next) => {
 				message: 'No user with that email'
 			})
 		}
+	} catch(err) {
+		console.log(err)
+	}
+})
+
+//logout route
+//GET /logout
+
+router.get('/logout', async (req, res, next) => {
+	//DESTROY session
+	try {
+		await req.session.destroy()
+
+		res.status(200).send({
+			data: {},
+			message: 'User successfully logged out'
+		})
 	} catch(err) {
 		console.log(err)
 	}
