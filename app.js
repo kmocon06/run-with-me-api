@@ -15,7 +15,8 @@ require('./db/db')
 //MIDDLEWARE
 
 //body-parser
-app.use(bodyParser.urlencoded({extended: false}))
+//convert data to JSON format
+app.use(bodyParser.json())
 //express-sessions
 //this makes req.sessions accessible 
 app.use(session({
