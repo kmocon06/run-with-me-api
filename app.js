@@ -29,6 +29,7 @@ app.use(session({
 
 //CONTROLLERS
 const authController = require('./controllers/authController.js')
+const raceController = require('./controllers/raceController.js')
 
 
 //ROUTES
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 
 //API version 1
 app.use('/api/v1/auth', authController)
+app.use('/api/v1/races', raceController)
 
 
 //LISTENERS
