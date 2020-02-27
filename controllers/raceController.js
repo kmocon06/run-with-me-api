@@ -3,6 +3,7 @@ const router = express.Router()
 const Race = require('../models/race.js')
 
 
+//index
 //get all of the races
 //GET /races
 router.get('/', async (req, res, next) => {
@@ -12,6 +13,23 @@ router.get('/', async (req, res, next) => {
 		res.status(200).send({
 			data: races,
 			message: 'We can see all of the races!'
+		})
+	} catch(err) {
+		console.log(err)
+	}
+})
+
+
+//get one race
+//GET /races/:id
+router.get('/:id', async (req, res, next) => {
+	try {
+		const oneRace = await Race.findById(req.params.id)
+
+		console.log(oneRace)
+		res.status(200).send({
+			data: oneRace,
+			message: `We can see the ${oneRace.name} race with id ${oneRace._id}`
 		})
 	} catch(err) {
 		console.log(err)
@@ -46,8 +64,6 @@ router.post('/', async (req, res, next) => {
 		console.log(err);
 	}
 })
-
-
 
 
 
