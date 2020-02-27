@@ -5,8 +5,17 @@ const Race = require('../models/race.js')
 
 //get all of the races
 //GET /races
-router.get('/', (req, res) => {
-	res.send('get races route')
+router.get('/', async (req, res, next) => {
+	try {
+		const races = await Race.find()
+
+		res.status(200).send({
+			data: races,
+			message: 'We can see all of the races!'
+		})
+	} catch(err) {
+		console.log(err)
+	}
 })
 
 
@@ -37,6 +46,8 @@ router.post('/', async (req, res, next) => {
 		console.log(err);
 	}
 })
+
+
 
 
 
