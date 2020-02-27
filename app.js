@@ -8,6 +8,7 @@ const PORT = process.env.PORT
 const bodyParser = require('body-parser')
 //be able to store sessions for each user
 const session = require('express-session')
+const methodOverride = require('method-override')
 //db connection
 require('./db/db')
 
@@ -19,6 +20,7 @@ require('./db/db')
 app.use(bodyParser.json())
 //express-sessions
 //this makes req.sessions accessible 
+app.use(methodOverride('_method'))
 app.use(session({
 	//scramble session info so someone is unable 
 	//to breach system and access session data
@@ -26,6 +28,8 @@ app.use(session({
 	resave: false, 
   	saveUninitialized: false 
 }))
+
+
 
 //CONTROLLERS
 const authController = require('./controllers/authController.js')

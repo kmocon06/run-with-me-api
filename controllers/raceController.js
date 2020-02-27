@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Race = require('../models/race.js')
+const requireAuth = require('../lib/requireAuth')
 
 
 //index
@@ -19,7 +20,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-
+//get race by ID
 //get one race
 //GET /races/:id
 router.get('/:id', async (req, res, next) => {
@@ -37,9 +38,10 @@ router.get('/:id', async (req, res, next) => {
 })
 
 
+
 //CREATE route
 //POST /races 
-router.post('/', async (req, res, next) => {
+router.post('/new', async (req, res, next) => {
 	try {
 		const createRace = await Race.create({
 			admin: req.session.userId,
@@ -65,6 +67,74 @@ router.post('/', async (req, res, next) => {
 	}
 })
 
+
+//UPDATE route 
+router.put('/:id', async (req, res, next) => {
+	try {
+
+		// if the current user who is logged in is the admin,
+		// then they are able to update that race
+
+		const raceToUpdate = await Race.findById(req.params.id)
+		console.log(raceToUpdate)
+		//const raceToUpdate = {}
+
+		if(req.session.userId === raceToUpdate.admin.toString()) {
+
+
+			raceToUpdate.name = req.body.name
+			raceToUpdate.distance = req.body.distance
+			raceToUpdate.location = req.body.location
+			raceToUpdate.date = req.body.date
+			const updatedRace = await Race.findByIdAndUpdate(
+				req.params.id, raceToUpdate)
+
+			res.status(200).send({
+				data: updatedRace,
+				message:`A race with the id of ${req.params.id} was updated!`
+			})
+		} else {
+			res.status(200).send({
+				"error": "You are unable to update this race",
+				message:`A race with the id of ${req.params.id} cannot be updated`
+			})
+		}
+
+	} catch(err) {
+		console.log(err)
+	}
+})
+
+
+
+
+//DESTROY route 
+//DELETE /races/id
+
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+
+		// if the current user who is logged in is the admin,
+		// then they are able to delete that race
+		// raceToDelete = GET THE RACE
+
+		const raceToDelete = await Race.findById(req.params.id)
+
+		if(req.session.userId === raceToDelete.admin.toString()) {
+			const deleteRace = await Race.findByIdAndDelete(req.params.id)
+			res.status(200).send({
+				data: deleteRace,
+				message:`A race with the id of ${req.params.id} was deleted`
+			})
+		} else {
+			
+		}
+
+	} catch(err) {
+		console.log(err)
+	}
+})
 
 
 
