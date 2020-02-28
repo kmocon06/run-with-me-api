@@ -6,11 +6,26 @@ const workoutSchema = new mongoose.Schema({
 		ref: 'User',
 		required: true
 	},
-	trainingFor: String,
-	weekNumber: Number,
-	dayOfTheWeek: String,
-	duration: String,
-	distance: String,
+	trainingFor: {
+		type: String,
+		required: true
+	},
+	weekNumber: {
+		type: Number,
+		required: true
+	},
+	dayOfTheWeek: {
+		type: String,
+		required: true
+	},
+	duration: {
+		type: String,
+		required: true
+	},
+	distance: {
+		type: String,
+		required: true
+	},
 	workoutCompleted: Boolean,
 	createdDate: {
 		type: Date,

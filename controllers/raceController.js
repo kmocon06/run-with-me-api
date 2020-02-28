@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Race = require('../models/race.js')
-const requireAuth = require('../lib/requireAuth')
+
 
 
 //index
@@ -19,6 +19,8 @@ router.get('/', async (req, res, next) => {
 		console.log(err)
 	}
 })
+
+
 
 //get race by ID
 //get one race
@@ -86,6 +88,7 @@ router.put('/:id', async (req, res, next) => {
 			raceToUpdate.distance = req.body.distance
 			raceToUpdate.location = req.body.location
 			raceToUpdate.date = req.body.date
+
 			const updatedRace = await Race.findByIdAndUpdate(
 				req.params.id, raceToUpdate)
 
@@ -94,7 +97,7 @@ router.put('/:id', async (req, res, next) => {
 				message:`A race with the id of ${req.params.id} was updated!`
 			})
 		} else {
-			res.status(200).send({
+			res.status(403).send({
 				"error": "You are unable to update this race",
 				message:`A race with the id of ${req.params.id} cannot be updated`
 			})

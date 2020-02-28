@@ -89,6 +89,28 @@ Models
 |DELETE | /workouts/id | user can delete a workout |
 
 
+Sprint 1
+2/21/20 - 2/24/20
+Project approval and organized models. Set up server by end of 2/24
+
+Sprint 2
+2/25/20 - 2/27/20
+Get Authentication for user working
+Fix any models
+Create and test all routes for CRUDing Races
+Create and test all routes for CRUDing Workouts for training plan
+
+
+Sprint 3
+2/28/20 - 3/2/20
+Test API to make sure it is fully functional 
+Create react app for client side
+CRUD the Races
+CRUD the Workouts
+
+
+
+
 
 
 
