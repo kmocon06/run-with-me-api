@@ -24,21 +24,52 @@ router.get('/', async (req, res, next) => {
 
 //get race by ID
 //get one race
-//GET /races/:id
-router.get('/:id', async (req, res, next) => {
+//PUT /races/:id
+//update the race by putting the runners into the runners array 
+//of the specific race
+router.put('/:id', async (req, res, next) => {
 	try {
-		const oneRace = await Race.findById(req.params.id)
+		if(req.session.userId) {
+			const oneRace = await Race.findById(req.params.id)
+			//console.log(oneRace)
+			//console.log(req.session.name)
+			//console.log(req.session.userId)
+			//console.log(req.session)
+			//console.log(oneRace.runners)
 
-		console.log(oneRace)
-		res.status(200).send({
-			data: oneRace,
-			message: `We can see the ${oneRace.name} race with id ${oneRace._id}`
-		})
+
+		//if a user who is logged in wants to join the race 
+		//then they should be pushed into the runners array
+		//for that race
+			console.log(oneRace.runners.indexOf('this'))
+			//if the name of the user who is logged in is not already in the
+			//array (if their index is -1), then they should be pushed
+			//into the array of runners
+			if(oneRace.runners.indexOf(req.session.name) === -1) {
+				oneRace.runners.push(req.session.name)
+				oneRace.save()	
+			}
+
+			res.status(200).send({
+				data: oneRace,
+				message: `We can see the ${oneRace.name} race with id ${oneRace._id}`
+			})
+		} else {
+			res.status(401).send({
+				status: 401,
+				error: 'You must we logged in to do that',
+				message: `Unable to update race`
+			})
+		}
+
 	} catch(err) {
-		console.log(err)
+		res.status(401).send({
+			status: 401,
+			error: 'ERROR',
+			message: `Unable to update race`
+		})
 	}
 })
-
 
 
 //CREATE route
@@ -68,6 +99,7 @@ router.post('/new', async (req, res, next) => {
 		console.log(err);
 	}
 })
+
 
 
 //UPDATE route 
