@@ -35,7 +35,7 @@ app.use(session({
 const authController = require('./controllers/authController.js')
 const raceController = require('./controllers/raceController.js')
 const workoutController = require('./controllers/workoutController.js')
-
+const userController = require('./controllers/userController.js')
 
 //ROUTES
 app.get('/', (req, res) => {
@@ -47,6 +47,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authController)
 app.use('/api/v1/races', raceController)
 app.use('/api/v1/workouts', workoutController)
+app.use('/api/v1/', userController)
 
 
 

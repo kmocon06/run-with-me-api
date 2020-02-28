@@ -3,11 +3,20 @@ const router = express.Router()
 const Workout = require('../models/workout.js')
 
 //index route
-//get all of the workouts
+//get all of the workouts for all users
 //GET /
 router.get('/', async (req, res, next) => {
+	try {
+		const workouts = await Workout.find().populate('userId')
 
-	res.send('this is where you can get all the workouts')
+		if(req.body._id === req.session.userId)
+			res.status(200).send({
+				data: workouts,
+				message: 'We can see all of the workouts!'
+			})
+	} catch(err) {
+		console.log(err)
+	}
 })
 
 
@@ -34,6 +43,40 @@ router.post('/new', async (req, res, next) => {
 
 	} catch(err) {
 		console.log(err);
+	}
+})
+
+
+//DESTROY route 
+//DELETE /races/id
+
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+
+		// if the current user who is logged in created the workout,
+		// then they are able to delete that workout
+
+		const workoutToDelete = await Workout.findById(req.params.id)
+		console.log(workoutToDelete)
+		console.log(workoutToDelete.user)
+
+		if(req.session.userId === workoutToDelete.user.toString()) {
+			const deleteWorkout= await Workout.findByIdAndDelete(req.params.id)
+			res.status(200).send({
+				data: deleteWorkout,
+				message:`A workout with the id of ${req.params.id} was deleted`
+			})
+		} else {
+
+			res.status(403).send({
+				"error": "You are unable to update this workout",
+				message:`A workout with the id of ${req.params.id} cannot be deleted`
+			})
+		}
+
+	} catch(err) {
+		console.log(err)
 	}
 })
 
