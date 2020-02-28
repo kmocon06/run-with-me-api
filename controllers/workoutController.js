@@ -47,6 +47,48 @@ router.post('/new', async (req, res, next) => {
 })
 
 
+//UPDATE route 
+router.put('/:id', async (req, res, next) => {
+	try {
+
+		// if the current user who is logged in is the admin,
+		// then they are able to update that race
+
+		const workoutToUpdate = await Workout.findById(req.params.id)
+		console.log(workoutToUpdate)
+
+		if(req.session.userId === workoutToUpdate.user.toString()) {
+
+			workoutToUpdate.trainingFor = req.body.trainingFor,
+			workoutToUpdate.weekNumber = req.body.weekNumber,
+			workoutToUpdate.dayOfTheWeek = req.body.dayOfTheWeek,
+			workoutToUpdate.duration = req.body.duration,
+			workoutToUpdate.distance = req.body.distance,
+			workoutToUpdate.workoutCompleted = true
+
+			const updatedWorkout = await Workout.findByIdAndUpdate(
+				req.params.id, workoutToUpdate)
+
+			res.status(200).send({
+				data: updatedWorkout,
+				message:`A workout with the id of ${req.params.id} was updated!`
+			})
+		} else {
+			res.status(403).send({
+				"error": "You are unable to update this workout",
+				message:`A workout with the id of ${req.params.id} cannot be updated`
+			})
+		}
+
+	} catch(err) {
+		console.log(err)
+	}
+})
+
+
+
+
+
 //DESTROY route 
 //DELETE /races/id
 
