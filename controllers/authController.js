@@ -1,5 +1,5 @@
 const express = require('express')
-//separate routes from server.js
+//separate routes from app.js
 const router = express.Router()
 const User = require('../models/user.js')
 const bcrypt = require('bcrypt')
@@ -30,6 +30,7 @@ router.post('/register', async (req, res, next) => {
 			console.log(emailAlreadyExists)
 
 			res.status(401).send({
+				status: 401,
 				data: {},
 				message: `A user with the email (${req.body.email}) already exists`
 			})
@@ -59,8 +60,9 @@ router.post('/register', async (req, res, next) => {
     		req.session.email = newUser.email
 
 			res.status(201).send({
+				status: 201,
 				data: newUserResponse,
-				message: 'User created successfully'
+				message: "User created successfully"
 			})
 		}
 
@@ -68,7 +70,13 @@ router.post('/register', async (req, res, next) => {
 		//if the user already exists then an error should occur
 	} catch(err) {
 		console.log(err)
-		console.log('this is the error')
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to register user"
+		})
+
 	}
 })
 
@@ -100,14 +108,16 @@ router.post('/login', async (req, res, next) => {
     			req.session.name = foundUser.name
 
     			res.status(200).send({
+    				status: 200,
 					data: userResponse,
-					message: 'User successfully logged in'
+					message: "User successfully logged in"
 				})
 			} else {
 
 				res.status(401).send({
+					status: 401,
 					data: {},
-					message: 'Email or password is invalid'
+					message: "Email or password is invalid"
 				})
 
 			}
@@ -115,12 +125,19 @@ router.post('/login', async (req, res, next) => {
 			//if there is no user with this email in the database then 
 			//the user needs to register
 			res.status(401).send({
+				status: 401,
 				data: {},
-				message: 'No user with that email'
+				message: "No user with that email"
 			})
 		}
 	} catch(err) {
 		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to login user"
+		})
 	}
 })
 
@@ -133,11 +150,18 @@ router.get('/logout', async (req, res, next) => {
 		await req.session.destroy()
 
 		res.status(200).send({
+			status: 200,
 			data: {},
-			message: 'User successfully logged out'
+			message: "User successfully logged out"
 		})
 	} catch(err) {
 		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to logout user"
+		})
 	}
 })
 

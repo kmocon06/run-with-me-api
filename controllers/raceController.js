@@ -12,11 +12,18 @@ router.get('/', async (req, res, next) => {
 		const races = await Race.find()
 
 		res.status(200).send({
+			status: 200,
 			data: races,
-			message: 'We can see all of the races!'
+			message: "We can see all of the races!"
 		})
 	} catch(err) {
 		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "You are unable to see all of the races"
+		})
 	}
 })
 
@@ -51,22 +58,25 @@ router.put('/:id', async (req, res, next) => {
 			}
 
 			res.status(200).send({
+				status: 200,
 				data: oneRace,
 				message: `We can see the ${oneRace.name} race with id ${oneRace._id}`
 			})
 		} else {
 			res.status(401).send({
 				status: 401,
-				error: 'You must we logged in to do that',
-				message: `Unable to update race`
+				error: "You must we logged in to do that",
+				message: "Unable to update race with new runner"
 			})
 		}
 
 	} catch(err) {
+		console.log(err)
+
 		res.status(401).send({
 			status: 401,
-			error: 'ERROR',
-			message: `Unable to update race`
+			error: "ERROR",
+			message: "Unable to update race with a new runner"
 		})
 	}
 })
@@ -91,12 +101,19 @@ router.post('/new', async (req, res, next) => {
 		//push the runner into the runners array
 
 		res.status(201).send({
+			status: 201,
 			data: createRace,
-			message: 'A new race was created!',
+			message: "A new race was created!",
 		}) 
 
 	} catch(err) {
-		console.log(err);
+		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to create a new race",
+		}) 
 	}
 })
 
@@ -125,18 +142,26 @@ router.put('/:id', async (req, res, next) => {
 				req.params.id, raceToUpdate)
 
 			res.status(200).send({
+				status: 200,
 				data: updatedRace,
-				message:`A race with the id of ${req.params.id} was updated!`
+				message:"A race with the id of ${req.params.id} was updated!"
 			})
 		} else {
 			res.status(403).send({
-				"error": "You are unable to update this race",
-				message:`A race with the id of ${req.params.id} cannot be updated`
+				status: 403,
+				error: "You are unable to update this race",
+				message:"This race cannot be updated"
 			})
 		}
 
 	} catch(err) {
 		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to update race"
+		})
 	}
 })
 
@@ -159,15 +184,26 @@ router.delete('/:id', async (req, res, next) => {
 		if(req.session.userId === raceToDelete.admin.toString()) {
 			const deleteRace = await Race.findByIdAndDelete(req.params.id)
 			res.status(200).send({
+				status: 200,
 				data: deleteRace,
 				message:`A race with the id of ${req.params.id} was deleted`
 			})
 		} else {
-			
+			res.status(403).send({
+				status: 403,
+				error: "You are unable to delete this race",
+				message:`This race cannot be deleted`
+			})
 		}
 
 	} catch(err) {
 		console.log(err)
+
+		res.status(403).send({
+			status: 403,
+			error: "ERROR",
+			message:"Unable to delete race"
+		})
 	}
 })
 
