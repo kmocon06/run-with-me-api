@@ -102,7 +102,7 @@ Create and test all routes for CRUDing Workouts for training plan
 
 
 Sprint 3
-2/28/20 - 3/2/20
+2/28/20 - 3/3/20
 Test API to make sure it is fully functional 
 Create react app for client side
 CRUD the Races

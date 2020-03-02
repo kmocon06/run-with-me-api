@@ -28,9 +28,43 @@ router.get('/', async (req, res, next) => {
 })
 
 
-
 //get race by ID
 //get one race
+//GET /races/:id
+//get once race with the id
+router.get('/:id', async (req, res, next) => {
+	try {
+		//if a user who is logged in and wants to look at a specific race
+		if(req.session.userId) {
+			const oneRace = await Race.findById(req.params.id)
+			//console.log(oneRace)
+
+			res.status(200).send({
+				status: 200,
+				data: oneRace,
+				message: `We can see the ${oneRace.name} race with id ${oneRace._id}`
+			})
+		} else {
+			res.status(401).send({
+				status: 401,
+				error: "You must we logged in to do that",
+				message: `"Unable to get race with ${oneRace._id}`
+			})
+		}
+
+	} catch(err) {
+		console.log(err)
+
+		res.status(401).send({
+			status: 401,
+			error: "ERROR",
+			message: "Unable to find that specific race"
+		})
+	}
+})
+
+
+//update one race
 //PUT /races/:id
 //update the race by putting the runners into the runners array 
 //of the specific race
