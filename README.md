@@ -72,7 +72,7 @@ Models
 | Method | Path | Action|
 |--------|------|-------|
 | GET | /races | user should be able to see all of the races that were created and be able to join a race|
-|POST | /races | user should be able to create a race |
+|POST | /races/new | user should be able to create a race |
 |GET | /races/id | user can see info for one race and everyone who has signed up |
 |PUT | /races/id | user is able to update a race by changing the race info |
 |DELETE | /races/id | user can delete a race they created |
@@ -107,6 +107,8 @@ Test API to make sure it is fully functional
 Create react app for client side
 CRUD the Races
 CRUD the Workouts
+
+
 
 
 

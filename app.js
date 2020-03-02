@@ -1,6 +1,8 @@
 //require dotenv to load environment variables
 require('dotenv').config()
 const express = require('express')
+//require cors to connect to frontend (run-with-me-react)
+const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT
 //Parse incoming request bodies in a middleware before your handlers, 
@@ -15,12 +17,19 @@ require('./db/db')
 
 //MIDDLEWARE
 
+//allow Cross-origin resource sharing
+//in this case to connect to React app
+app.use(cors({
+	origin: [process.env.REACT_APP],
+	credentials: true,
+	optionsSuccessStatus: 200
+}));
 //body-parser
 //convert data to JSON format
 app.use(bodyParser.json())
+app.use(methodOverride('_method'))
 //express-sessions
 //this makes req.sessions accessible 
-app.use(methodOverride('_method'))
 app.use(session({
 	//scramble session info so someone is unable 
 	//to breach system and access session data
