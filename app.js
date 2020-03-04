@@ -20,7 +20,7 @@ require('./db/db')
 //allow Cross-origin resource sharing
 //in this case to connect to React app
 app.use(cors({
-	origin: [process.env.REACT_APP],
+	origin: [process.env.REACT_APP, 'https://run-with-me-app.herokuapp.com'],
 	credentials: true,
 	optionsSuccessStatus: 200
 }));
