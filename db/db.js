@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 //   useFindAndModify: false
 // })
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mydbname')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/run-with-me')
 
 mongoose.connection.on('connected', () => {
   console.log(`connected to database`);
