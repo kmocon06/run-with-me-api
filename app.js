@@ -61,7 +61,9 @@ app.use('/api/v1/', userController)
 
 
 //LISTENERS
-app.listen(PORT, () => {
-  const currentDate = new Date()
-  console.log(`${currentDate.toLocaleString()}: Server listening on port ${PORT}`)
-})
+// app.listen(PORT, () => {
+//   const currentDate = new Date()
+//   console.log(`${currentDate.toLocaleString()}: Server listening on port ${PORT}`)
+// })
+
+app.listen(process.env.PORT || 4000)
