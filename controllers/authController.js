@@ -19,46 +19,46 @@ router.post('/register', async (req, res, next) => {
 		console.log("hit the register route on the try")
 		//create user and be able to log them in with their email
 		//check if email already exists in the database
-		// const emailAlreadyExists = await User.findOne({
-		// 	email: req.body.email
-		// })
+		const emailAlreadyExists = await User.findOne({
+			email: req.body.email
+		})
 
 
 		//if the account does not exist then we are able to create a new user
 		//and should give a 401 error
-		// if(emailAlreadyExists) {
-		// 	console.log('email already exists in db')
-		// 	console.log(emailAlreadyExists)
+		if(emailAlreadyExists) {
+			console.log('email already exists in db')
+			console.log(emailAlreadyExists)
 
-		// 	res.status(401).send({
-		// 		status: 401,
-		// 		data: {},
-		// 		message: `A user with the email (${req.body.email}) already exists`
-		// 	})
+			res.status(401).send({
+				status: 401,
+				data: {},
+				message: `A user with the email (${req.body.email}) already exists`
+			})
 			
 		//otherwise we are able to create a new user
 		} else {
 
-			// const password = req.body.password
-			// //add salt to protect password 
-			// const salt = bcrypt.genSaltSync(10)
-			// //create a hashed password 
-			// const hashedPassword = bcrypt.hashSync(password, salt) 
+			const password = req.body.password
+			//add salt to protect password 
+			const salt = bcrypt.genSaltSync(10)
+			//create a hashed password 
+			const hashedPassword = bcrypt.hashSync(password, salt) 
 
-			// const newUser = await User.create(req.body)
-			// //change the current password to a hashedpassword
-			// newUser.password = hashedPassword
-			// //save the new created user 
-			// await newUser.save()
+			const newUser = await User.create(req.body)
+			//change the current password to a hashedpassword
+			newUser.password = hashedPassword
+			//save the new created user 
+			await newUser.save()
 
-			// //find the new user by their ID 
-			// const newUserResponse = await User.findById(newUser._id)
+			//find the new user by their ID 
+			const newUserResponse = await User.findById(newUser._id)
 
-			// //user is currently logged into the session
-   //  		req.session.loggedIn = true
-   //  		//save the ID and email of the user that is logged into session
-   //  		req.session.userId = newUser._id
-   //  		req.session.email = newUser.email
+			//user is currently logged into the session
+    		req.session.loggedIn = true
+    		//save the ID and email of the user that is logged into session
+    		req.session.userId = newUser._id
+    		req.session.email = newUser.email
 
 			res.status(201).send({
 				status: 201,
