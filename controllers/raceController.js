@@ -68,10 +68,10 @@ router.get('/:id', async (req, res, next) => {
 //PUT /races/:id
 //update the race by putting the runners into the runners array 
 //of the specific race
-router.put('/:id', async (req, res, next) => {
+router.put('/:raceId', async (req, res, next) => {
 	try {
 		if(req.session.userId) {
-			const oneRace = await Race.findById(req.params.id)
+			const oneRace = await Race.findById(req.params.raceId)
 			//console.log(oneRace)
 			//console.log(req.session.name)
 			//console.log(req.session.userId)
@@ -82,12 +82,12 @@ router.put('/:id', async (req, res, next) => {
 		//if a user who is logged in wants to join the race 
 		//then they should be pushed into the runners array
 		//for that race
-			console.log(oneRace.runners.indexOf('this'))
+			// console.log(oneRace.runners.indexOf('this'))
 			//if the name of the user who is logged in is not already in the
 			//array (if their index is -1), then they should be pushed
 			//into the array of runners
-			if(oneRace.runners.indexOf(req.session.name) === -1) {
-				oneRace.runners.push(req.session.name)
+			if(oneRace.runners.indexOf(req.session.userId) === -1) {
+				oneRace.runners.push(req.session.userId)
 				oneRace.save()	
 			}
 
