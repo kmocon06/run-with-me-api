@@ -154,7 +154,7 @@ router.post('/new', async (req, res, next) => {
 
 
 //UPDATE route 
-router.put('/:id', async (req, res, next) => {
+router.put('/admin/:id', async (req, res, next) => {
 	try {
 
 		// if the current user who is logged in is the admin,
