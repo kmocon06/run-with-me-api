@@ -9,7 +9,7 @@ const Race = require('../models/race.js')
 //GET /races
 router.get('/', async (req, res, next) => {
 	try {
-		const races = await Race.find()
+		const races = await Race.find().populate('runners')
 
 		res.status(200).send({
 			status: 200,
@@ -71,8 +71,12 @@ router.get('/:id', async (req, res, next) => {
 router.put('/:raceId', async (req, res, next) => {
 	try {
 		if(req.session.userId) {
-			const oneRace = await Race.findById(req.params.raceId)
-			//console.log(oneRace)
+
+
+
+			const oneRace = await Race.findById(req.params.raceId).populate('runners')
+			// const oneRace = await Race.find( { _id: req.params.raceId }).populate('runners')
+			console.log('oneRace >>>> ', oneRace)
 			//console.log(req.session.name)
 			//console.log(req.session.userId)
 			//console.log(req.session)
